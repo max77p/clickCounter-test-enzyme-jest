@@ -1,22 +1,28 @@
-import React, { Component } from "react";
-import "./App.css";
-import ButtonContainer from "./button";
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
 
-const App = () => {
-  const [counter, setCounter] = React.useState(0);
+class App extends Component {
+  constructor(props) {
+    super(props);
 
-  const handleClick = () => {
-    setCounter(counter + 1);
-  };
-
-  return (
-    <div data-test="component-app">
-      <h1 data-test="counter-display">The counter is currently {counter}</h1>
-      <ButtonContainer data-test="increment-button" handleClick={handleClick}>
-        Increment
-      </ButtonContainer>
-    </div>
-  );
-};
+    this.state = {
+      counter: 0
+    };
+  }
+  render() {
+    return (
+      <div data-test="component-app">
+      <h1 data-test="counter-display">The counter is currently {this.state.counter}</h1>
+      <button
+        data-test="increment-button"
+        onClick={() => this.setState({ counter: this.state.counter + 1 })}
+        >
+        Increment counter
+      </button>
+      </div>
+    );
+  }
+}
 
 export default App;

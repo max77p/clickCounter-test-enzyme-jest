@@ -6,6 +6,13 @@ import { act } from 'react-dom/test-utils';
 
 import App from "./App";
 Enzyme.configure({ adapter: new EnzymeAdapter() });
+
+const setup = (props={}, state=null) => {
+  const wrapper = shallow(<App {...props} />)
+  if (state) wrapper.setState(state);
+  return wrapper;
+}
+
 const findByTestAttr = (wrapper, val) => {
   return wrapper.find(`[data-test="${val}"]`);
 }
@@ -26,17 +33,15 @@ test("renders counter display", () => {
 });
 
 test("renders counter display", () => {
-  const wrapper = mount(<App />);
-  const button = wrapper.find('button')
-  // button.simulate('click');
-  // const initialCounterState = wrapper.state('counter');
-  // console.log(initialCounterState)
-  // expect(submitButton.prop('disabled')).toBeTruthy();
-  act(() => button.prop('onClick')());
-  button.update();
-  // console.log(button.debug())
+  const counter = 7;
+  const wrapper = setup(null, { counter });
+
+  const button = findByTestAttr(wrapper, 'increment-button');
+  button.simulate('click');
+
   const counterDisplay = findByTestAttr(wrapper, 'counter-display');
-  console.log(counterDisplay)
+  expect(counterDisplay.text()).toContain(counter + 1)
+  console.log(counterDisplay.debug())
 });
 // test("counter starts at 0", () => {});
 // test("click button increments counter display", () => {});
